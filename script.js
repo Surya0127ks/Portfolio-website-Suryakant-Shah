@@ -1,49 +1,69 @@
-// Mobile nav toggle
-const toggle = document.querySelector('.menu-toggle');
-const nav    = document.querySelector('.nav');
+// ============================================================
+// SURYAKANT SHAH — PORTFOLIO INTERACTION SCRIPT
+// ============================================================
 
-toggle?.addEventListener('click', () => {
-  const open = nav.classList.toggle('open');
-  toggle.setAttribute('aria-expanded', String(open));
-});
+(function () {
+  'use strict';
 
-// Close nav when any link is clicked
-nav?.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    nav.classList.remove('open');
-    toggle?.setAttribute('aria-expanded', 'false');
-  });
-});
+  // --- Mobile Navigation ---
+  const menuToggle = document.getElementById('menu-toggle');
+  const mainNav = document.getElementById('main-nav');
 
-// Year in footer
-const yearEl = document.querySelector('#year');
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+  if (menuToggle && mainNav) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('is-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
 
-// --- Theme toggle ---
-const themeButton   = document.querySelector('.theme-toggle');
-const themeLabel    = themeButton?.querySelector('.theme-label');
-const themeIcon     = themeButton?.querySelector('.theme-icon');
-const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    // Close menu when clicking any nav link
+    mainNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
 
-// Default: dark. Only switch to light if explicitly saved.
-const savedTheme = localStorage.getItem('portfolio-theme');
-const initTheme  = savedTheme === 'light' ? 'light' : 'dark';
-document.documentElement.dataset.theme = initTheme;
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        mainNav.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 
-function updateThemeUI() {
-  const isLight = document.documentElement.dataset.theme === 'light';
-  themeButton?.setAttribute('aria-pressed', String(isLight));
-  themeButton?.setAttribute('aria-label', `Switch to ${isLight ? 'dark' : 'light'} mode`);
-  if (themeLabel)    themeLabel.textContent = isLight ? 'Dark' : 'Light';
-  if (themeIcon)     themeIcon.textContent  = isLight ? '☾' : '☼';
-  if (themeColorMeta) themeColorMeta.content = isLight ? '#f4f1ef' : '#0a0a0a';
-}
+  // --- Dynamic Year in Footer ---
+  const yearEl = document.getElementById('year');
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
 
-updateThemeUI();
+  // --- Dark / Light Theme Toggle ---
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
 
-themeButton?.addEventListener('click', () => {
-  const nowLight = document.documentElement.dataset.theme !== 'light';
-  document.documentElement.dataset.theme = nowLight ? 'light' : 'dark';
-  localStorage.setItem('portfolio-theme', nowLight ? 'light' : 'dark');
-  updateThemeUI();
-});
+  // Check saved theme, default to dark
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    if (themeMeta) {
+      themeMeta.content = theme === 'light' ? '#f8fafc' : '#09090b';
+    }
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+    }
+  }
+
+  applyTheme(initialTheme);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.dataset.theme;
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('portfolio-theme', nextTheme);
+      applyTheme(nextTheme);
+    });
+  }
+})();
