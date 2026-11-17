@@ -10,24 +10,35 @@
   const mainNav = document.getElementById('main-nav');
 
   if (menuToggle && mainNav) {
-    menuToggle.addEventListener('click', () => {
-      const isOpen = mainNav.classList.toggle('is-open');
+    const setMenuOpen = (isOpen) => {
+      mainNav.classList.toggle('is-open', isOpen);
       menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    };
+
+    menuToggle.addEventListener('click', () => {
+      setMenuOpen(!mainNav.classList.contains('is-open'));
     });
 
     // Close menu when clicking any nav link
     mainNav.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
-        mainNav.classList.remove('is-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
+        setMenuOpen(false);
       });
     });
 
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
       if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
-        mainNav.classList.remove('is-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
+        setMenuOpen(false);
+      }
+    });
+
+    // Let keyboard users close the menu and return focus to its toggle.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mainNav.classList.contains('is-open')) {
+        setMenuOpen(false);
+        menuToggle.focus();
       }
     });
   }
@@ -43,7 +54,12 @@
   const themeMeta = document.querySelector('meta[name="theme-color"]');
 
   // Check saved theme, default to dark
-  const savedTheme = localStorage.getItem('portfolio-theme');
+  let savedTheme = null;
+  try {
+    savedTheme = window.localStorage.getItem('portfolio-theme');
+  } catch {
+    // Storage can be unavailable in private or restricted browsing contexts.
+  }
   const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
 
   function applyTheme(theme) {
@@ -62,7 +78,11 @@
     themeToggle.addEventListener('click', () => {
       const currentTheme = document.documentElement.dataset.theme;
       const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('portfolio-theme', nextTheme);
+      try {
+        window.localStorage.setItem('portfolio-theme', nextTheme);
+      } catch {
+        // The theme still changes for this visit when storage is unavailable.
+      }
       applyTheme(nextTheme);
     });
   }

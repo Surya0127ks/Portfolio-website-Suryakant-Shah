@@ -14,6 +14,12 @@
     <meta property="og:description"
         content="Portfolio of Suryakant Shah — Full Stack Developer specializing in .NET, Angular, FastAPI, and LLM integrations.">
     <meta property="og:url" content="https://portfolio-suryakant.pages.dev">
+    <meta property="og:site_name" content="Suryakant Shah Portfolio">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Suryakant Shah — Full Stack Developer">
+    <meta name="twitter:description"
+        content="Portfolio of Suryakant Shah — Full Stack Developer specializing in .NET, Angular, FastAPI, and LLM integrations.">
+    <link rel="canonical" href="https://portfolio-suryakant.pages.dev/">
 
     <title>Suryakant Shah — Full Stack Developer</title>
 
@@ -22,11 +28,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=20261111-v5">
-    <script src="script.js?v=20261111-v5" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261117-v6">
+    <script src="script.js?v=20261117-v6" defer></script>
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
     <!-- TOPBAR -->
     <header class="topbar">
         <div class="container topbar-container">
@@ -49,7 +57,7 @@
                     <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                     <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                 </button>
-                <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+                <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-controls="main-nav" aria-expanded="false">
                     <span class="bar"></span>
                     <span class="bar"></span>
                 </button>
@@ -57,9 +65,9 @@
         </div>
     </header>
 
-    <main id="home">
+    <main id="main-content" tabindex="-1">
         <!-- HERO -->
-        <section class="hero-section">
+        <section class="hero-section" id="home">
             <div class="container hero-container">
                 <div class="hero-content">
                     <div class="status-badge">
